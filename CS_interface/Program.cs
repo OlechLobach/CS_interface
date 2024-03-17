@@ -1,154 +1,157 @@
 ﻿using System;
 using System.Collections;
 
-public interface ISort
+namespace SortingAndCalculating
 {
-    void SortAsc();
-    void SortDesc();
-    void SortByParam(bool isAsc);
-}
-
-public interface ICalc
-{
-    int Less(int valueToCompare);
-    int Greater(int valueToCompare);
-}
-
-public interface IOutput2
-{
-    void ShowEven();
-    void ShowOdd();
-}
-
-public class IntArray : ISort, ICalc, IOutput2
-{
-    private int[] arr;
-
-    public IntArray(int[] arr)
+    public interface ISort
     {
-        this.arr = arr;
+        void SortAsc();
+        void SortDesc();
+        void SortByParam(bool isAsc);
     }
 
-    public void SortAsc()
+    public interface ICalc
     {
-        Array.Sort(arr);
+        int Less(int valueToCompare);
+        int Greater(int valueToCompare);
     }
 
-    public void SortDesc()
+    public interface IOutput2
     {
-        Array.Sort(arr);
-        Array.Reverse(arr);
+        void ShowEven();
+        void ShowOdd();
     }
 
-    public void SortByParam(bool isAsc)
+    public class IntArray : ISort, ICalc, IOutput2
     {
-        if (isAsc)
+        private int[] arr;
+
+        public IntArray(int[] arr)
         {
-            SortAsc();
+            this.arr = arr;
         }
-        else
-        {
-            SortDesc();
-        }
-    }
 
-    public void Print()
-    {
-        foreach (var item in arr)
+        public void SortAsc()
         {
-            Console.Write($"{item} ");
+            Array.Sort(arr);
         }
-        Console.WriteLine();
-    }
 
-    public int Less(int valueToCompare)
-    {
-        int count = 0;
-        foreach (var item in arr)
+        public void SortDesc()
         {
-            if (item < valueToCompare)
+            Array.Sort(arr);
+            Array.Reverse(arr);
+        }
+
+        public void SortByParam(bool isAsc)
+        {
+            if (isAsc)
             {
-                count++;
+                SortAsc();
+            }
+            else
+            {
+                SortDesc();
             }
         }
-        return count;
-    }
 
-    public int Greater(int valueToCompare)
-    {
-        int count = 0;
-        foreach (var item in arr)
+        public void Print()
         {
-            if (item > valueToCompare)
-            {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    public void ShowEven()
-    {
-        Console.WriteLine("Even numbers:");
-        foreach (var item in arr)
-        {
-            if (item % 2 == 0)
+            foreach (var item in arr)
             {
                 Console.Write($"{item} ");
             }
+            Console.WriteLine();
         }
-        Console.WriteLine();
-    }
 
-    public void ShowOdd()
-    {
-        Console.WriteLine("Odd numbers:");
-        foreach (var item in arr)
+        public int Less(int valueToCompare)
         {
-            if (item % 2 != 0)
+            int count = 0;
+            foreach (var item in arr)
             {
-                Console.Write($"{item} ");
+                if (item < valueToCompare)
+                {
+                    count++;
+                }
             }
+            return count;
         }
-        Console.WriteLine();
+
+        public int Greater(int valueToCompare)
+        {
+            int count = 0;
+            foreach (var item in arr)
+            {
+                if (item > valueToCompare)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        public void ShowEven()
+        {
+            Console.WriteLine("Even numbers:");
+            foreach (var item in arr)
+            {
+                if (item % 2 == 0)
+                {
+                    Console.Write($"{item} ");
+                }
+            }
+            Console.WriteLine();
+        }
+
+        public void ShowOdd()
+        {
+            Console.WriteLine("Odd numbers:");
+            foreach (var item in arr)
+            {
+                if (item % 2 != 0)
+                {
+                    Console.Write($"{item} ");
+                }
+            }
+            Console.WriteLine();
+        }
+
+        public ICollection? GetArray()
+        {
+            throw new NotImplementedException();
+        }
     }
 
-    public ICollection? GetArray()
+    class Program
     {
-        throw new NotImplementedException();
-    }
-}
+        static void Main()
+        {
+            int[] numbers = { 4, 2, 7, 1, 9, 5 };
+            IntArray array = new IntArray(numbers);
 
-class Program
-{
-    static void Main()
-    {
-        int[] numbers = { 4, 2, 7, 1, 9, 5 };
-        IntArray array = new IntArray(numbers);
+            Console.WriteLine("Original array:");
+            array.Print();
 
-        Console.WriteLine("Original array:");
-        array.Print();
+            Console.WriteLine("\nSorting in ascending order:");
+            array.SortAsc();
+            array.Print();
 
-        Console.WriteLine("\nSorting in ascending order:");
-        array.SortAsc();
-        array.Print();
+            Console.WriteLine("\nSorting in descending order:");
+            array.SortDesc();
+            array.Print();
 
-        Console.WriteLine("\nSorting in descending order:");
-        array.SortDesc();
-        array.Print();
+            Console.WriteLine("\nSorting based on parameter (true for ascending, false for descending):");
+            array.SortByParam(true);
+            array.Print();
 
-        Console.WriteLine("\nSorting based on parameter (true for ascending, false for descending):");
-        array.SortByParam(true);
-        array.Print();
+            array.SortByParam(false);
+            array.Print();
 
-        array.SortByParam(false);
-        array.Print();
+            int valueToCompare = 5;
+            Console.WriteLine($"\nNumber of elements less than {valueToCompare}: {array.Less(valueToCompare)}");
+            Console.WriteLine($"Number of elements greater than {valueToCompare}: {array.Greater(valueToCompare)}");
 
-        int valueToCompare = 5;
-        Console.WriteLine($"\nNumber of elements less than {valueToCompare}: {array.Less(valueToCompare)}");
-        Console.WriteLine($"Number of elements greater than {valueToCompare}: {array.Greater(valueToCompare)}");
-
-        array.ShowEven();
-        array.ShowOdd();
+            array.ShowEven();
+            array.ShowOdd();
+        }
     }
 }
